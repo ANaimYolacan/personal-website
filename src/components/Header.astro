@@ -116,8 +116,9 @@
 <script>
   import { gsap } from "gsap";
   import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
   
-  gsap.registerPlugin(ScrollToPlugin);
+  gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
 
   function initHeaderNavigation() {
     const navLinks = document.querySelectorAll('.nav-link');

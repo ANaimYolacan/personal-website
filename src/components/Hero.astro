@@ -3,11 +3,36 @@
 ---
 
 <!-- Spacer: Fixed hero'nun kapladığı alanı dökümanda rezerve etmek için -->
-<div class="hero-spacer"></div>
+<div id="hero" class="hero-spacer"></div>
 
-<section id="hero" class="hero js-hero">
-  <!-- Arka plan: Nokta/Çubuk gridi -->
-  <canvas class="hero__canvas js-hero-canvas"></canvas>
+<section class="hero js-hero">
+  <!-- Arka plan: Dalgalı Topology Animasyonu -->
+  <svg class="hero__topology-bg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs>
+      <filter id="gooey-morph" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.005 0.005" numOctaves="3" result="noise" seed="1">
+          <animate attributeName="baseFrequency" dur="30s" values="0.005 0.005; 0.009 0.007; 0.005 0.005" repeatCount="indefinite" />
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="180" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+    
+    <g filter="url(#gooey-morph)" stroke="var(--color-crimson-500)" stroke-width="1.5" fill="none" opacity="0.4">
+      <circle cx="50%" cy="50%" r="5%"></circle>
+      <circle cx="50%" cy="50%" r="15%"></circle>
+      <circle cx="50%" cy="50%" r="25%"></circle>
+      <circle cx="50%" cy="50%" r="35%"></circle>
+      <circle cx="50%" cy="50%" r="45%"></circle>
+      <circle cx="50%" cy="50%" r="55%"></circle>
+      <circle cx="50%" cy="50%" r="65%"></circle>
+      <circle cx="50%" cy="50%" r="75%"></circle>
+      <circle cx="50%" cy="50%" r="85%"></circle>
+      <circle cx="50%" cy="50%" r="95%"></circle>
+      <circle cx="50%" cy="50%" r="105%"></circle>
+      <circle cx="50%" cy="50%" r="115%"></circle>
+      <circle cx="50%" cy="50%" r="125%"></circle>
+    </g>
+  </svg>
 
   <!-- Portre Görseli (Container bağımsız, tam ortalı) -->
   <div class="hero__portrait-wrapper">
@@ -65,13 +90,14 @@
     z-index: 0; /* Diğer bölümlerin altında kalması için */
   }
 
-  .hero__canvas {
+  .hero__topology-bg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     z-index: 0;
     pointer-events: none;
+    opacity: 0.8; /* Biraz saydamlık ile yumuşatıyoruz */
   }
 
   /* Portre: Tam merkez, daha büyük */
@@ -201,10 +227,9 @@
 <script>
   import { gsap } from "gsap";
 
-  function initHeroCanvas() {
-    const canvas = document.querySelector('.js-hero-canvas') as HTMLCanvasElement;
+  function initHeroAnimation() {
     const hero = document.querySelector('.js-hero') as HTMLElement;
-    if (!canvas || !hero) return;
+    if (!hero) return;
 
     // --- 1. GİRİŞ ANİMASYONLARI (ENTRY ANIMATIONS) ---
     const tl = gsap.timeline();
@@ -291,98 +316,12 @@
         }
       });
     });
-
-
-    // --- 3. MANYETİK NOKTALAR ---
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-
-    const spacing = 35; // Grid boşlukları
-    let cols = 0;
-    let rows = 0;
-
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      cols = Math.ceil(width / spacing);
-      rows = Math.ceil(height / spacing);
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    const mouse = { x: -1000, y: -1000, active: false };
-
-    window.addEventListener('mousemove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-      mouse.active = true;
-    });
-
-    window.addEventListener('mouseout', (e) => {
-      if (e.relatedTarget === null) {
-        mouse.active = false;
-      }
-    });
-
-    const maxDist = 250;
-
-    function animate() {
-      ctx.clearRect(0, 0, width, height);
-
-      const dotColor = 'rgba(220, 20, 60, 0.15)';
-      const lineColor = 'rgba(220, 20, 60, 0.4)';
-      
-      for (let i = 0; i < cols; i++) {
-        for (let j = 0; j < rows; j++) {
-          const x = i * spacing + (spacing / 2);
-          const y = j * spacing + (spacing / 2);
-
-          const dx = mouse.x - x;
-          const dy = mouse.y - y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (mouse.active && dist < maxDist) {
-            const angle = Math.atan2(dy, dx);
-            const intensity = 1 - (dist / maxDist);
-            const length = 4 + (14 * intensity);
-            
-            ctx.save();
-            ctx.translate(x, y);
-            ctx.rotate(angle);
-            
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(length, 0);
-            
-            ctx.strokeStyle = lineColor;
-            ctx.lineWidth = 2;
-            ctx.lineCap = 'round';
-            ctx.stroke();
-            
-            ctx.restore();
-          } else {
-            ctx.beginPath();
-            ctx.arc(x, y, 1.5, 0, Math.PI * 2);
-            ctx.fillStyle = dotColor;
-            ctx.fill();
-          }
-        }
-      }
-
-      requestAnimationFrame(animate);
-    }
-
-    animate();
   }
 
-  document.addEventListener('astro:page-load', initHeroCanvas);
+  document.addEventListener('astro:page-load', initHeroAnimation);
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHeroCanvas);
+    document.addEventListener('DOMContentLoaded', initHeroAnimation);
   } else {
-    initHeroCanvas();
+    initHeroAnimation();
   }
 </script>
