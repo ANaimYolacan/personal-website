@@ -1,0 +1,641 @@
+---
+// Wodniack.dev tabanlı dikey "PROJECTS" + mat portal maskesi + noktalı defter + manyetik yerine oturma (snap)
+const word = "PROJECTS"; // 8 harf -> Dikey 8 satır (P, R, O, J, E, C, T, S)
+const ROWS = word.length; // 8 satır
+const GHOSTS = 22; // Her satırda ekranı tamamen kaplayan harf sayısı
+const CENTER_INDEX = 11; // Başlangıçta tam ortada duran harf
+
+// Her satırın sakin hız çarpanları
+const rowSpeeds = [
+  0.96, // P (r=0)
+  1.06, // R (r=1)
+  1.18, // O (r=2)
+  0.92, // J (r=3)
+  1.08, // E (r=4)
+  0.98, // C (r=5)
+  1.12, // T (r=6)
+  1.02, // S (r=7)
+];
+
+// 6 Proje kartı
+const cardsData = [
+  { id: "01", title: "Project Alpha", y: -0.26, size: 0.98 },
+  { id: "02", title: "Project Beta",  y:  0.24, size: 1.04 },
+  { id: "03", title: "Project Gamma", y: -0.14, size: 0.92 },
+  { id: "04", title: "Project Delta", y:  0.28, size: 1.00 },
+  { id: "05", title: "Project Epsilon", y: -0.28, size: 1.02 },
+  { id: "06", title: "Project Zeta",  y:  0.16, size: 0.95 },
+];
+---
+
+<section id="projects" class="s-work js-work-section">
+  <div class="s__outer">
+    <div class="s__inner js-container">
+      
+      <!-- Noktalı Defter Dokusu (Dot Grid) -->
+      <div class="s__dot-grid js-dot-grid"></div>
+
+      <!-- Mat Portal Penceresi (Aperture Cutout) -->
+      <div class="s__portal-window js-portal-window">
+        <div class="s__portal-window__pill">
+          <span class="s__portal-window__tag s__portal-window__tag--top">PORTAL // 01</span>
+          <span class="s__portal-window__tag s__portal-window__tag--bottom">#PROJECTS</span>
+        </div>
+      </div>
+
+      <!-- 3D Sahne -->
+      <div class="s__scene js-scene">
+        <div class="s__scene-inner js-scene-inner">
+
+          <!-- Dikey Harf Satırları (P, R, O, J, E, C, T, S) ve Klonları -->
+          {word.split("").map((char, r) => {
+            const iy = ((r + 1) / (ROWS + 1) - 0.5) * 2;
+            const rowSpeed = rowSpeeds[r];
+
+            return Array.from({ length: GHOSTS }).map((_, g) => {
+              const baseOffset = g / GHOSTS;
+              const initialSpread = baseOffset * 1.5 - 0.25;
+              const initialHead = (initialSpread - 0.5) * -2;
+              const initialAhead = initialHead * initialHead;
+              const isCenter = g === CENTER_INDEX ? 1 : 0;
+
+              // SADECE EN ÜST (r=0 'P') VE EN ALT (r=7 'S') SATIRLARDAN TOPLAM 3 HARF ÖNDE (z-index: 3)
+              const isFront = (r === 0 && (g === 7 || g === 15)) || (r === 7 && g === 11);
+              const zIndex = isFront ? 3 : 1;
+
+              return (
+                <span
+                  class="s__scene__letter js-letter"
+                  data-row={r}
+                  data-ghost={g}
+                  data-letter={char}
+                  style={`
+                    --r: ${r};
+                    --iy: ${iy};
+                    --head: ${initialHead.toFixed(3)};
+                    --ahead: ${initialAhead.toFixed(3)};
+                    --is-center: ${isCenter};
+                    --row-speed: ${rowSpeed};
+                    --base-offset: ${baseOffset};
+                    z-index: ${zIndex};
+                  `}
+                >
+                  {char}
+                </span>
+              );
+            });
+          })}
+
+          <!-- Proje Kartları (z-index: 2) -->
+          {cardsData.map((card, i) => (
+            <article
+              class="s__scene__work js-card"
+              data-index={i}
+              style={`
+                --y: ${card.y};
+                --size: ${card.size};
+                --progress: 1.5;
+              `}
+            >
+              <div class="a__inner">
+                <div class="a__visual">
+                  <div class="a__glow"></div>
+                  <span class="a__badge">{card.id}</span>
+                  <div class="a__placeholder">
+                    <span>PROJE GÖRSELİ</span>
+                  </div>
+                </div>
+                <div class="a__caption">
+                  <span class="a__caption__text">{card.title}</span>
+                  <span class="a__caption__key">#{card.id}-2026</span>
+                </div>
+              </div>
+            </article>
+          ))}
+
+        </div>
+      </div>
+
+      <!-- Kenar karartması -->
+      <div class="s__vignette"></div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .s-work {
+    position: relative;
+    z-index: 10;
+    background: var(--color-bg-primary);
+  }
+
+  .s__outer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .s__inner {
+    position: relative;
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #080000;
+  }
+
+  /* Noktalı Defter Dokusu */
+  .s__dot-grid {
+    position: absolute;
+    inset: -15vw -15vh;
+    z-index: 0;
+    background-image: radial-gradient(
+      circle,
+      rgba(220, 20, 60, 0.28) 1.2px,
+      transparent 1.2px
+    );
+    background-size: 26px 26px;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  /* Mat Portal Penceresi */
+  .s__portal-window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    width: clamp(180px, 20vw, 270px);
+    height: clamp(500px, 74vh, 720px);
+    pointer-events: none;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform;
+  }
+
+  .s__portal-window__pill {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 1.5px solid var(--color-crimson-500);
+    border-radius: 999px;
+    box-shadow:
+      0 0 0 200vmax #080000,
+      0 0 35px rgba(220, 20, 60, 0.25),
+      inset 0 0 30px rgba(220, 20, 60, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .s__portal-window__pill:after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(220, 20, 60, 0.25);
+    border-radius: 999px;
+  }
+
+  .s__portal-window__tag {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    color: var(--color-crimson-400);
+    background: #080000;
+    padding: 0.15rem 0.6rem;
+    border: 1px solid rgba(220, 20, 60, 0.3);
+    border-radius: 4px;
+    z-index: 2;
+  }
+
+  .s__portal-window__tag--top {
+    top: -0.65rem;
+  }
+
+  .s__portal-window__tag--bottom {
+    bottom: -0.65rem;
+  }
+
+  /* 3D Sahne */
+  .s__scene {
+    --state: 0;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    perspective: 45rem;
+    z-index: 2;
+    will-change: transform;
+  }
+
+  .s__scene-inner {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: scale(0.66);
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+
+  /* Harfler */
+  .s__scene__letter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: clamp(2.4rem, 6.2vh, 5.2rem);
+    font-weight: 900;
+    line-height: 0.85;
+    text-transform: uppercase;
+    color: var(--color-crimson-500);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    will-change: transform, opacity;
+
+    opacity: calc(var(--is-center, 0) + (1 - var(--is-center, 0)) * var(--state));
+
+    transform:
+      translate3d(-50%, -50%, 0)
+      rotateY(calc(var(--head) * -13deg * var(--state)))
+      translate3d(
+        calc(var(--head) * 54vw * var(--state)),
+        calc(
+          (var(--r) - 3.5) * clamp(2.6rem, 9.8vh, 5.8rem)
+          + var(--iy) * 28vh * var(--ahead) * var(--state)
+        ),
+        0
+      );
+  }
+
+  .s__scene__letter:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    color: var(--color-crimson-900);
+    opacity: min(calc(var(--state) * 2), 0.85);
+    transform:
+      scale(1.05, 1.02)
+      translate3d(calc(var(--head) * 0.2rem * var(--state)), 0, 0);
+    transform-origin: calc(50% - var(--head) * 50%) -50%;
+    will-change: transform, opacity;
+    content: attr(data-letter);
+  }
+
+  /* Proje Kartları */
+  .s__scene__work {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2 !important;
+    width: clamp(280px, 34vw, 520px);
+    aspect-ratio: 16 / 9;
+    pointer-events: auto;
+    will-change: transform;
+
+    transform:
+      rotateY(calc(var(--progress) * -16deg))
+      translate3d(
+        calc(var(--progress) * (50vw + 100%) - 50%),
+        calc(var(--y) * 45vh - 50%),
+        0
+      )
+      scale(var(--size));
+  }
+
+  .a__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: rgba(14, 2, 2, 0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(220, 20, 60, 0.25);
+    border-radius: 12px;
+    padding: 0.6rem;
+    overflow: hidden;
+    transition:
+      border-color var(--duration-normal),
+      box-shadow var(--duration-normal);
+  }
+
+  .s__scene__work:hover .a__inner {
+    border-color: var(--color-crimson-500);
+    box-shadow: 0 0 40px rgba(220, 20, 60, 0.25);
+  }
+
+  .a__visual {
+    position: relative;
+    flex: 1;
+    background: #0d0101;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .a__glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(220, 20, 60, 0.15) 0%, transparent 70%);
+  }
+
+  .a__badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-crimson-400);
+    background: rgba(0, 0, 0, 0.6);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid rgba(220, 20, 60, 0.2);
+  }
+
+  .a__placeholder {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    letter-spacing: 0.15em;
+    color: rgba(220, 20, 60, 0.4);
+  }
+
+  .a__caption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.25rem 0.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .a__caption__text {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  .a__caption__key {
+    color: var(--color-crimson-500);
+  }
+
+  /* Kenar Sisi / Karartma */
+  .s__vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 75% 65% at 50% 50%,
+      transparent 35%,
+      rgba(8, 0, 0, 0.9) 100%
+    );
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  /* Header'dan Scroll Yapılırken Göz Kırpmaları ve Çılgın Animasyonları Gizlemek İçin */
+  :global(body.is-nav-scrolling) .s__scene {
+    opacity: 0 !important;
+    transition: opacity 0.3s ease;
+  }
+  .s__scene {
+    transition: opacity 0.5s ease;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initWodniackWork() {
+    ScrollTrigger.getAll()
+      .filter((st) => {
+        const tr = st.vars.trigger;
+        return tr === document.querySelector(".js-work-section") || tr === ".js-work-section";
+      })
+      .forEach((st) => st.kill());
+
+    const section = document.querySelector(".js-work-section") as HTMLElement | null;
+    const scene = document.querySelector(".js-scene") as HTMLElement | null;
+    const sceneInner = document.querySelector(".js-scene-inner") as HTMLElement | null;
+    const portalWindow = document.querySelector(".js-portal-window") as HTMLElement | null;
+    const dotGrid = document.querySelector(".js-dot-grid") as HTMLElement | null;
+    const cards = document.querySelectorAll(".js-card") as NodeListOf<HTMLElement>;
+    const letterEls = document.querySelectorAll(".js-letter") as NodeListOf<HTMLElement>;
+
+    if (!section || !scene || !sceneInner || !portalWindow || !cards.length || !letterEls.length) return;
+
+    interface GhostData {
+      el: HTMLElement;
+      baseOffset: number;
+      speed: number;
+    }
+    const ghostList: GhostData[] = [];
+
+    letterEls.forEach((el) => {
+      const baseOffset = parseFloat(el.style.getPropertyValue("--base-offset") || "0");
+      const speed = parseFloat(el.style.getPropertyValue("--row-speed") || "1");
+      ghostList.push({ el, baseOffset, speed });
+    });
+
+    function updateConveyor(driftProgress: number) {
+      for (let i = 0; i < ghostList.length; i++) {
+        const item = ghostList[i];
+        let p = (item.baseOffset - driftProgress * item.speed * 0.12) % 1;
+        if (p < 0) p += 1;
+
+        const spread = p * 1.5 - 0.25;
+        const head = (spread - 0.5) * -2;
+        const ahead = head * head;
+
+        item.el.style.setProperty("--head", head.toFixed(3));
+        item.el.style.setProperty("--ahead", ahead.toFixed(3));
+      }
+    }
+
+    const driftState = { progress: 0 };
+
+    // ==========================================================
+    // ANA TIMELINE & AKILLI YERİNE OTURMA (MAGNETIC SNAP) SİSTEMİ
+    // Başlangıç ve bitiş fazlarında yarım/garip noktalarda kalmayı önler,
+    // temiz pozisyonlara yumuşakça (snap) oturur.
+    // Orta fazda (kartlar izlenirken) ise serbest ve akıcı scroll imkanı sunar.
+    // ==========================================================
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "+=5500",
+        pin: true,
+        scrub: 1,
+        invalidateOnRefresh: true,
+        snap: {
+          snapTo: (value: number) => {
+            // BAŞLANGIÇ FAZI (0 -> 0.195):
+            // Giriş eşiği (%8 altı) -> başlangıç kapalı konumuna (0) geri oturur
+            if (value < 0.08) return 0;
+            // İvmeli giriş eşiği aşıldığında (%8 - %19.5 arası) -> tam açık sahneye (0.195) oturur
+            if (value >= 0.08 && value < 0.195) return 0.195;
+
+            // BİTİŞ FAZI (0.76 -> 1.0):
+            // Toparlanma eşiği aşılmamışsa (%76 - %88 arası) -> kart alanına (0.76) geri döner
+            if (value > 0.76 && value < 0.88) return 0.76;
+            // Çıkış eşiği aşıldığında (>= %88) -> tam toparlanmış son çerçeveye (1.0) kilitlenir
+            if (value >= 0.88) return 1.0;
+
+            // ORTA FAZ (0.195 - 0.76): Kartları incelerken serbest
+            return value;
+          },
+          duration: { min: 0.25, max: 0.55 },
+          delay: 0.15, // Kullanıcı scroll'u bıraktıktan 150ms sonra nazikçe yerine oturur
+          ease: "power2.out",
+        },
+        onUpdate: () => {
+          updateConveyor(driftState.progress);
+        },
+      },
+    });
+
+    // Noktalı grid kayması
+    if (dotGrid) {
+      tl.fromTo(
+        dotGrid,
+        { x: "0vw", y: "0vh" },
+        {
+          x: "-5vw",
+          y: "-2.5vh",
+          duration: 11.3,
+          ease: "none",
+        },
+        0
+      );
+    }
+
+    // 1. FAZ (0s -> 2.2s): PENCEREDEN İÇERİ İVMELİ GİRİŞ & HARFLERİN HIZLI AÇILIP KAYMASI
+    // Portal çerçevesi ivmeli (power3.in) olarak hızlanarak kameraya doğru patlar ve ekranın dışına uçar
+    tl.fromTo(
+      portalWindow,
+      { scale: 1 },
+      {
+        scale: 14,
+        duration: 2.2,
+        ease: "power3.in",
+      },
+      0
+    );
+
+    // Sahne büyüterek kullanıcıyı içeri çeker
+    tl.fromTo(
+      sceneInner,
+      { scale: 0.66 },
+      {
+        scale: 1.0,
+        duration: 2.2,
+        ease: "power2.inOut",
+      },
+      0
+    );
+
+    // Harfler silindir formuna hızlanarak açılır
+    tl.fromTo(
+      scene,
+      { "--state": 0 },
+      {
+        "--state": 1,
+        duration: 2.2,
+        ease: "power3.inOut",
+      },
+      0
+    );
+
+    // 2. FAZ (2.2s -> 8.6s): KARTLARIN AKIŞI & SAKİN HARF PARALLAXI
+    // Kartlar incelenirken harfler göz yormayacak şekilde sakin bir hızla akar
+    tl.fromTo(
+      driftState,
+      { progress: 0 },
+      {
+        progress: 1.0,
+        duration: 6.4,
+        ease: "none",
+      },
+      2.2
+    );
+
+    cards.forEach((card, i) => {
+      tl.fromTo(
+        card,
+        { "--progress": 1.35 },
+        {
+          "--progress": -1.35,
+          duration: 3.5,
+          ease: "none",
+        },
+        2.2 + i * 0.58
+      );
+    });
+
+    // 3. FAZ (8.6s -> 10.7s): ÇIKIŞ & TOPARLANMA
+    tl.to(
+      driftState,
+      {
+        progress: 0,
+        duration: 2.1,
+        ease: "power2.inOut",
+      },
+      8.6
+    );
+
+    tl.to(
+      scene,
+      {
+        "--state": 0,
+        duration: 2.1,
+        ease: "power3.inOut",
+      },
+      8.6
+    );
+
+    tl.to(
+      sceneInner,
+      {
+        scale: 0.66,
+        duration: 2.1,
+        ease: "power2.inOut",
+      },
+      8.6
+    );
+
+    // Portal çerçevesi hızla geri gelerek toplanan kelimeyi yakalar
+    tl.to(
+      portalWindow,
+      {
+        scale: 1,
+        duration: 2.1,
+        ease: "power3.out",
+      },
+      8.6
+    );
+
+    // 4. FAZ (10.7s -> 11.3s): Toplanmış kelimenin ekranda duraklaması
+    tl.to({}, { duration: 0.6 }, 10.7);
+  }
+
+  // Yükleme tetikleyicileri
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initWodniackWork);
+  } else {
+    initWodniackWork();
+  }
+  document.addEventListener("astro:page-load", initWodniackWork);
+</script>

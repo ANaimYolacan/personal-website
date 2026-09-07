@@ -1,0 +1,388 @@
+---
+// Hero Section
+---
+
+<!-- Spacer: Fixed hero'nun kapladığı alanı dökümanda rezerve etmek için -->
+<div class="hero-spacer"></div>
+
+<section id="hero" class="hero js-hero">
+  <!-- Arka plan: Nokta/Çubuk gridi -->
+  <canvas class="hero__canvas js-hero-canvas"></canvas>
+
+  <!-- Portre Görseli (Container bağımsız, tam ortalı) -->
+  <div class="hero__portrait-wrapper">
+    <img src="/images/hero.png" alt="Naim Yolacan" class="hero__portrait" />
+  </div>
+
+  <!-- Dev Tipografi (Container bağımsız, tam ekran sol alt köşesi) -->
+  <div class="hero__typography">
+    <div class="hero__subtitle-wrapper">
+      <span class="hero__subtitle">Artificial Intelligence & Machine Learning</span>
+    </div>
+    <h1 class="hero__title">
+      <div class="hero__title-line">
+        <span class="char-wrap"><span class="char js-char" data-dir="up">N</span></span>
+        <span class="char-wrap"><span class="char js-char" data-dir="left">A</span></span>
+        <span class="char-wrap"><span class="char js-char" data-dir="down">I</span></span>
+        <span class="char-wrap"><span class="char js-char" data-dir="right">M</span></span>
+      </div>
+      <div class="hero__title-line">
+        <span class="char-wrap"><span class="char js-char" data-dir="left">Y</span></span>
+        <span class="char-wrap"><span class="char js-char" data-dir="down">O</span></span>
+        <span class="char-wrap"><span class="char js-char" data-dir="up">L</span></span>
+        <span class="char-wrap"><span class="char js-char" data-dir="right">A</span></span>
+        <span class="char-wrap"><span class="char js-char" data-dir="left">C</span></span>
+        <span class="char-wrap"><span class="char js-char" data-dir="down">A</span></span>
+        <span class="char-wrap"><span class="char js-char" data-dir="up">N</span></span>
+      </div>
+    </h1>
+  </div>
+
+  <!-- Scroll Down İndikatörü -->
+  <div class="hero__scroll-indicator js-scroll-indicator">
+    <span class="hero__scroll-text">SCROLL</span>
+    <div class="hero__scroll-line">
+      <div class="hero__scroll-line-inner"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-spacer {
+    width: 100%;
+    height: 100vh; /* About section'ı aşağı iter */
+  }
+
+  .hero {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    min-height: 700px;
+    background: var(--color-bg-primary);
+    overflow: hidden;
+    z-index: 0; /* Diğer bölümlerin altında kalması için */
+  }
+
+  .hero__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Portre: Tam merkez, daha büyük */
+  .hero__portrait-wrapper {
+    position: absolute;
+    bottom: -2vh; /* Çok hafif aşağı kaydırıp büyümeye izin veriyoruz */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw; /* Tüm genişliği alması için */
+    height: 110vh; /* Ekranı aşan yükseklik */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 1;
+    pointer-events: auto;
+  }
+
+  .hero__portrait {
+    height: 115vh; /* Gerçek boyutlandırma */
+    width: auto;
+    max-width: none !important; /* Varsayılan global max-width 100% kuralını ezer */
+    object-fit: contain;
+    object-position: bottom center;
+    display: block;
+  }
+
+  /* Yazı: Portrenin önünde, tam sol alt köşe */
+  .hero__typography {
+    position: absolute;
+    bottom: 2vh; /* Mutlak alt köşe */
+    left: 2vw; /* Mutlak sol köşe */
+    z-index: 2;
+  }
+
+  .hero__subtitle {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: clamp(0.6rem, 1.2vw, 1.1rem); /* Çok daha küçük */
+    font-weight: 300;
+    color: var(--color-text-primary);
+    opacity: 0.7;
+    letter-spacing: 0.02em; /* Genişlememesi için spacing azaltıldı */
+    margin-bottom: 0.2rem;
+    margin-left: 0.3vw;
+  }
+
+  .hero__title {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero__title-line {
+    display: flex;
+    font-family: var(--font-sans);
+    font-size: clamp(4rem, 12vw, 9.5rem);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+  }
+
+  .hero__subtitle-wrapper {
+    overflow: hidden;
+  }
+
+  .char-wrap {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+  }
+
+  .char {
+    display: inline-block;
+    /* initial transform is set by JS based on direction */
+  }
+
+  /* Scroll İndikatörü */
+  .hero__scroll-indicator {
+    position: absolute;
+    bottom: 5vh;
+    right: 3vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 2;
+  }
+
+  .hero__scroll-text {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--color-text-primary);
+    opacity: 0.6;
+    writing-mode: vertical-rl;
+    text-transform: uppercase;
+  }
+
+  .hero__scroll-line {
+    width: 1px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hero__scroll-line-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-crimson-500);
+    animation: scrollLine 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { transform: translateY(-100%); }
+    50% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  function initHeroCanvas() {
+    const canvas = document.querySelector('.js-hero-canvas') as HTMLCanvasElement;
+    const hero = document.querySelector('.js-hero') as HTMLElement;
+    if (!canvas || !hero) return;
+
+    // --- 1. GİRİŞ ANİMASYONLARI (ENTRY ANIMATIONS) ---
+    const tl = gsap.timeline();
+
+    // Portre animasyonu: karanlıktan çıkıp hafifçe küçülerek yerine oturur
+    tl.fromTo('.hero__portrait', 
+      { opacity: 0, scale: 1.05 }, 
+      { opacity: 1, scale: 1, duration: 1.5, ease: 'power3.out' }
+    );
+
+    // NAIM YOLACAN harfleri Rübik Küpü gibi farklı yönlerden yerine oturur
+    const chars = document.querySelectorAll('.js-char');
+    
+    // Her bir harfi başlangıç pozisyonuna yerleştir
+    chars.forEach((char) => {
+      const dir = char.getAttribute('data-dir');
+      if (dir === 'up') gsap.set(char, { y: '100%' });
+      else if (dir === 'down') gsap.set(char, { y: '-100%' });
+      else if (dir === 'left') gsap.set(char, { x: '100%' });
+      else if (dir === 'right') gsap.set(char, { x: '-100%' });
+    });
+
+    // Harfleri yerlerine kaydırarak getir (stagger ile hafif gecikmeli)
+    tl.to('.js-char', {
+      x: '0%',
+      y: '0%',
+      duration: 1.2,
+      stagger: 0.1, // Harflerin sırayla gelmesi
+      ease: 'power4.out'
+    }, "-=1.2");
+
+    // Alt başlık belirmesi
+    tl.fromTo('.hero__subtitle', 
+      { opacity: 0, y: 15 }, 
+      { opacity: 0.7, y: 0, duration: 1, ease: 'power2.out' }, 
+      "-=0.9"
+    );
+
+    // Scroll indikatörü belirmesi
+    tl.fromTo('.js-scroll-indicator', 
+      { opacity: 0 }, 
+      { opacity: 1, duration: 1 }, 
+      "-=0.5"
+    );
+
+    // --- 2. SCROLL PARALAKS ANİMASYONLARI (ScrollTrigger) ---
+    // ScrollTrigger import etmeden önce register etmeliyiz
+    import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Scroll başladığında indikatörü hızlıca gizle
+      gsap.to('.js-scroll-indicator', {
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: document.body,
+          start: 'top top',
+          end: 150, // 150px scroll edilince tamamen kaybolur
+          scrub: true
+        }
+      });
+
+      // Yazı (Typography) ekranla beraber (veya normal hızda) yukarı çıkar
+      gsap.to('.hero__typography', {
+        y: () => -window.innerHeight, // Ekran yüksekliği kadar yukarı
+        ease: 'none',
+        scrollTrigger: {
+          trigger: document.body,
+          start: 'top top',
+          end: () => window.innerHeight, // 1 ekran boyu kaydırmada tamamlanır
+          scrub: true
+        }
+      });
+
+      // Portre daha yavaş yukarı çıkar (Paralaks etkisi)
+      gsap.to('.hero__portrait-wrapper', {
+        y: () => -window.innerHeight * 0.4, // Yazıya göre daha yavaş (%40 hız)
+        ease: 'none',
+        scrollTrigger: {
+          trigger: document.body,
+          start: 'top top',
+          end: () => window.innerHeight,
+          scrub: true
+        }
+      });
+    });
+
+
+    // --- 3. MANYETİK NOKTALAR ---
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    const spacing = 35; // Grid boşlukları
+    let cols = 0;
+    let rows = 0;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      cols = Math.ceil(width / spacing);
+      rows = Math.ceil(height / spacing);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const mouse = { x: -1000, y: -1000, active: false };
+
+    window.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.active = true;
+    });
+
+    window.addEventListener('mouseout', (e) => {
+      if (e.relatedTarget === null) {
+        mouse.active = false;
+      }
+    });
+
+    const maxDist = 250;
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      const dotColor = 'rgba(220, 20, 60, 0.15)';
+      const lineColor = 'rgba(220, 20, 60, 0.4)';
+      
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
+          const x = i * spacing + (spacing / 2);
+          const y = j * spacing + (spacing / 2);
+
+          const dx = mouse.x - x;
+          const dy = mouse.y - y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (mouse.active && dist < maxDist) {
+            const angle = Math.atan2(dy, dx);
+            const intensity = 1 - (dist / maxDist);
+            const length = 4 + (14 * intensity);
+            
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(length, 0);
+            
+            ctx.strokeStyle = lineColor;
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+            
+            ctx.restore();
+          } else {
+            ctx.beginPath();
+            ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+            ctx.fillStyle = dotColor;
+            ctx.fill();
+          }
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  }
+
+  document.addEventListener('astro:page-load', initHeroCanvas);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroCanvas);
+  } else {
+    initHeroCanvas();
+  }
+</script>

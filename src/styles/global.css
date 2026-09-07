@@ -1,0 +1,153 @@
+/* ============================================
+   COLOR SYSTEM — Dark + Crimson
+   ============================================ */
+:root {
+  /* Background tones */
+  --color-bg-primary: #0a0a0a;
+  --color-bg-secondary: #0d0000;
+  --color-bg-elevated: #141414;
+  --color-bg-surface: #1a1a1a;
+
+  /* Crimson accent palette */
+  --color-crimson-50: #fef2f2;
+  --color-crimson-100: #fee2e2;
+  --color-crimson-200: #fca5a5;
+  --color-crimson-300: #f87171;
+  --color-crimson-400: #ef4444;
+  --color-crimson-500: #dc143c;
+  --color-crimson-600: #b91c1c;
+  --color-crimson-700: #991b1b;
+  --color-crimson-800: #7f1d1d;
+  --color-crimson-900: #450a0a;
+
+  /* Text */
+  --color-text-primary: #f5f5f5;
+  --color-text-secondary: #a3a3a3;
+  --color-text-muted: #525252;
+
+  /* Borders */
+  --color-border: #262626;
+  --color-border-subtle: #1a1a1a;
+
+  /* Typography scale */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-display: "Inter", system-ui, sans-serif;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 4rem;
+  --space-2xl: 8rem;
+  --space-3xl: 12rem;
+
+  /* Layout */
+  --max-width: 1200px;
+
+  /* Transitions */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 600ms;
+}
+
+/* ============================================
+   CSS RESET
+   ============================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ============================================
+   SECTION SCAFFOLDING
+   ============================================ */
+.section {
+  position: relative;
+  width: 100%;
+}
+
+.section__inner {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* Hero — full viewport */
+.section--hero {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* About */
+.section--about {
+  padding: var(--space-3xl) 0;
+}
+
+/* Projects — extra vertical space for scroll animations */
+.section--projects {
+  padding: var(--space-2xl) 0;
+}
+
+/* Footer */
+.footer {
+  padding: var(--space-xl) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.footer__inner {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
