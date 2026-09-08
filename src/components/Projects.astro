@@ -700,19 +700,20 @@ const cardsData = [
 
     // ==========================================================
     // ANA TIMELINE & AKILLI YERİNE OTURMA (MAGNETIC SNAP) SİSTEMİ
-    // Başlangıç ve bitiş fazlarında yarım/garip noktalarda kalmayı önler,
-    // temiz pozisyonlara yumuşakça (snap) oturur.
-    // Orta fazda (kartlar izlenirken) ise serbest ve akıcı scroll imkanı sunar.
+    // Masaüstünde temiz pozisyonlara yumuşakça oturur.
+    // Mobilde ise kullanıcı parmak kontrolünü bozmamak ve takılmayı önlemek için snap tamamen devre dışıdır.
     // ==========================================================
+    const isMobile = typeof window !== 'undefined' && (window.innerWidth <= 768 || window.matchMedia("(max-width: 768px)").matches);
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
         start: "top top",
         end: "+=5500",
         pin: true,
-        scrub: 1,
+        scrub: isMobile ? 0.6 : 1,
         invalidateOnRefresh: true,
-        snap: {
+        snap: isMobile ? false : {
           snapTo: (value: number) => {
             // BAŞLANGIÇ FAZI (0 -> 0.195):
             // Giriş eşiği (%8 altı) -> başlangıç kapalı konumuna (0) geri oturur
