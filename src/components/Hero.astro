@@ -238,31 +238,39 @@
     }
 
     .hero__title-line {
-      font-size: clamp(2.4rem, 11.5vw, 4rem);
+      /* Mobilde belirgin şekilde daha büyük ve etkileyici */
+      font-size: clamp(2.85rem, 13.5vw, 4.8rem);
+      letter-spacing: -0.03em;
     }
 
     .hero__portrait-wrapper {
-      left: 55%;
-      bottom: 5vh; /* Portreyi aşağıdan yukarıya kaldırıyoruz */
-      height: 95dvh;
+      left: 54%;
+      bottom: 0; /* Telefonun en altıyla tam hizalı, altta boşluk kalmaz */
+      height: 100dvh;
+      align-items: flex-end;
     }
     
     .hero__portrait {
-      height: 70dvh; /* Mobilde orantılı ve daha ferah yükseklik */
+      /* Portre hafifçe büyütüldü ve alt tabana oturtuldu */
+      height: 78dvh; 
+      object-fit: contain;
+      object-position: bottom center;
     }
 
     .hero__typography {
-      bottom: 13vh; /* İsmi ve alt başlığı daha yukarıya, ekranın odak noktasına taşıyoruz */
-      left: 5vw;
+      bottom: 7dvh; /* Telefonun alt sınırının hemen üstünde, heybetli konum */
+      left: 4vw;
+      z-index: 3;
     }
 
     .hero__subtitle {
-      font-size: 0.8rem;
+      font-size: clamp(0.75rem, 3.2vw, 0.95rem);
+      margin-bottom: 0.35rem;
     }
 
     .hero__scroll-indicator {
-      right: 4vw;
-      bottom: 3.5vh;
+      right: 3vw;
+      bottom: 3.5dvh;
     }
   }
 </style>
