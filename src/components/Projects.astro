@@ -633,9 +633,39 @@ const cardsData = [
       font-size: clamp(2rem, 5vh, 3rem);
     }
 
-    /* Kart boyutu mobilde biraz küçülsün ama yayılım masaüstü gibi kalsın */
+    /* Kart boyutu ve oranı: 16/9 yerine 16/11 yapılarak açıklama metnine yeterli dikey alan sağlandı */
     .s__scene__work {
-      width: clamp(240px, 75vw, 340px);
+      width: clamp(250px, 78vw, 340px);
+      aspect-ratio: 16 / 11;
+    }
+
+    /* Mobilde overlay iç boşluğu optimize edildi ve taşmaya karşı koruma eklendi */
+    .a__overlay {
+      padding: 0.85rem 1rem;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .a__overlay::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Açıklama metni mobilde karta tam sığacak şekilde optimize edildi */
+    .a__desc {
+      font-size: clamp(0.75rem, 2.7vw, 0.85rem);
+      line-height: 1.38;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .a__view-btn {
+      font-size: 0.75rem;
+    }
+
+    .a__title-overlay {
+      padding: 0.85rem;
+    }
+
+    .a__title-overlay span {
+      font-size: clamp(1rem, 3.8vw, 1.25rem);
     }
   }
 
