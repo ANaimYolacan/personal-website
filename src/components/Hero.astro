@@ -42,7 +42,10 @@
   <!-- Dev Tipografi (Container bağımsız, tam ekran sol alt köşesi) -->
   <div class="hero__typography">
     <div class="hero__subtitle-wrapper">
-      <span class="hero__subtitle">Artificial Intelligence & Machine Learning</span>
+      <span class="hero__subtitle">
+        <span class="en-text">Artificial Intelligence & Machine Learning</span>
+        <span class="tr-text">Yapay Zeka & Makine Öğrenmesi</span>
+      </span>
     </div>
     <h1 class="hero__title">
       <div class="hero__title-line">
@@ -221,6 +224,38 @@
     0% { transform: translateY(-100%); }
     50% { transform: translateY(0); }
     100% { transform: translateY(100%); }
+  }
+
+  /* Responsive Düzenlemeler */
+  @media (max-width: 768px) {
+    .hero__title-line {
+      /* Mobilde biraz büyütüldü (eski: 2.2rem) */
+      font-size: clamp(2.6rem, 13vw, 4.5rem);
+    }
+
+    .hero__portrait-wrapper {
+      /* Portreyi sadece sağa kaydır, dikeyde olduğu gibi bırak */
+      left: 55%;
+    }
+    
+    .hero__portrait {
+      /* Portreyi küçült */
+      height: 75vh; 
+    }
+
+    .hero__typography {
+      bottom: 8vh;
+      left: 4vw;
+    }
+
+    .hero__subtitle {
+      font-size: 0.8rem;
+    }
+
+    .hero__scroll-indicator {
+      right: 4vw;
+      bottom: 3vh;
+    }
   }
 </style>
 

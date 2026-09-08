@@ -14,6 +14,24 @@ const { title = "Personal Website" } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0a0a0a" />
     <title>{title}</title>
+    
+    <!-- Meta Açıklama (SEO için) -->
+    <meta name="description" content="Abdullah Naim Yolaçan - AI & Machine Learning" />
+
+    <!-- Open Graph / Facebook / LinkedIn vb. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://naimyolacan.com/" />
+    <meta property="og:title" content="Naim Yolacan | AI & Machine Learning" />
+    <meta property="og:description" content="Abdullah Naim Yolaçan - AI & Machine Learning" />
+    <!-- Siteniz yayına girdiğinde tam çalışması için URL'in mutlak olması tercih edilir -->
+    <meta property="og:image" content="https://naimyolacan.com/og-image.png" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://naimyolacan.com/" />
+    <meta name="twitter:title" content="Naim Yolacan | AI & Machine Learning" />
+    <meta name="twitter:description" content="Abdullah Naim Yolaçan - AI & Machine Learning" />
+    <meta name="twitter:image" content="https://naimyolacan.com/og-image.png" />
   </head>
   <body>
     <slot />
@@ -22,4 +40,39 @@ const { title = "Personal Website" } = Astro.props;
 
 <style is:global>
   @import "../styles/global.css";
+  html[lang="en"] .tr-text { display: none !important; }
+  html[lang="tr"] .en-text { display: none !important; }
 </style>
+
+<script>
+  // Sayfa yüklendiğinde dili kontrol et
+  const setLang = () => {
+    const savedLang = localStorage.getItem('site-lang') || 'en';
+    document.documentElement.lang = savedLang;
+    
+    // Aktif butonları güncelle
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      if (btn.textContent.toLowerCase() === savedLang) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  };
+
+  // İlk yüklemede çalıştır
+  setLang();
+  
+  // Astro sayfa geçişleri için (ViewTransitions kullanılıyorsa)
+  document.addEventListener('astro:page-load', setLang);
+
+  // Butonlara tıklanınca dili değiştir
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.lang-btn');
+    if (!btn) return;
+    
+    const newLang = btn.textContent.toLowerCase();
+    localStorage.setItem('site-lang', newLang);
+    setLang();
+  });
+</script>

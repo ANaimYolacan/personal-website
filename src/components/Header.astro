@@ -7,23 +7,59 @@
   <div class="header__left"></div>
 
   <!-- Orta Navigasyon -->
-  <nav class="header__nav glass-pill">
-    <a href="#hero" class="nav-link">Home</a>
+  <nav class="header__nav glass-pill desktop-only">
+    <a href="#hero" class="nav-link">
+      <span class="en-text">Home</span><span class="tr-text">Ana Sayfa</span>
+    </a>
     <span class="separator">.</span>
-    <a href="#about" class="nav-link">About</a>
+    <a href="#about" class="nav-link">
+      <span class="en-text">About</span><span class="tr-text">Hakkımda</span>
+    </a>
     <span class="separator">.</span>
-    <a href="#projects" class="nav-link">Projects</a>
+    <a href="#projects" class="nav-link">
+      <span class="en-text">Projects</span><span class="tr-text">Projeler</span>
+    </a>
     <span class="separator">.</span>
-    <a href="#contact" class="nav-link">Contact</a>
+    <a href="#contact" class="nav-link">
+      <span class="en-text">Contact</span><span class="tr-text">İletişim</span>
+    </a>
   </nav>
 
-  <!-- Sağ Dil Seçenekleri -->
+  <!-- Sağ Dil Seçenekleri & Hamburger Menu (Mobilde) -->
   <div class="header__right glass-pill">
+    <button class="lang-btn active desktop-only">en</button>
+    <span class="lang-separator desktop-only">|</span>
+    <button class="lang-btn desktop-only">tr</button>
+    <button class="hamburger js-hamburger mobile-only" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobil Fullscreen Menü -->
+<div class="mobile-menu js-mobile-menu">
+  <nav class="mobile-menu__nav">
+    <a href="#hero" class="nav-link js-mobile-link">
+      <span class="en-text">Home</span><span class="tr-text">Ana Sayfa</span>
+    </a>
+    <a href="#about" class="nav-link js-mobile-link">
+      <span class="en-text">About</span><span class="tr-text">Hakkımda</span>
+    </a>
+    <a href="#projects" class="nav-link js-mobile-link">
+      <span class="en-text">Projects</span><span class="tr-text">Projeler</span>
+    </a>
+    <a href="#contact" class="nav-link js-mobile-link">
+      <span class="en-text">Contact</span><span class="tr-text">İletişim</span>
+    </a>
+  </nav>
+  <div class="mobile-menu__lang js-mobile-link">
     <button class="lang-btn active">en</button>
     <span class="lang-separator">|</span>
     <button class="lang-btn">tr</button>
   </div>
-</header>
+</div>
 
 <style>
   .header {
@@ -44,8 +80,8 @@
 
   /* Cam Efekti (Glassmorphism) Ortak Sınıfı */
   .glass-pill {
-    background: rgba(20, 20, 20, 0.45); /* Biraz daha koyu/şeffaf */
-    backdrop-filter: blur(28px); /* Blur efekti artırıldı */
+    background: rgba(20, 20, 20, 0.45);
+    backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 6px;
@@ -68,6 +104,41 @@
     padding: 0.5rem 1rem;
   }
 
+  /* Hamburger Butonu */
+  .mobile-only {
+    display: none;
+  }
+
+  .hamburger {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0.25rem 0.5rem;
+    margin-left: 0;
+  }
+
+  .hamburger-separator {
+    opacity: 0.5;
+    font-size: 0.9rem;
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+  }
+
+  .hamburger span {
+    width: 22px;
+    height: 2px;
+    background: var(--color-text-primary);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
+
+  /* Hamburger Animasyonu (Aktif) */
+  .hamburger.is-active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.is-active span:nth-child(2) { opacity: 0; }
+  .hamburger.is-active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
   /* Basit Tipografi */
   .nav-link,
   .lang-btn,
@@ -82,7 +153,7 @@
     border: none;
     padding: 0;
     cursor: pointer;
-    transition: color 0.3s ease; /* Yumuşak renk geçişi */
+    transition: color 0.3s ease;
   }
 
   .lang-btn {
@@ -91,7 +162,6 @@
     letter-spacing: 0.05em;
   }
 
-  /* Noktalar (Separatörler) */
   .separator {
     opacity: 0.5;
     transform: translateY(-2px);
@@ -102,7 +172,6 @@
     font-size: 0.9rem;
   }
 
-  /* Hover ve Aktif Durumları */
   .nav-link:hover,
   .lang-btn:hover {
     color: var(--color-accent);
@@ -110,6 +179,67 @@
 
   .lang-btn.active {
     font-weight: 700;
+  }
+
+  /* Mobil Overlay Menü */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 49;
+    display: flex;
+    flex-direction: column; /* Nav ve dil seçeneklerini alt alta diz */
+    align-items: center;
+    justify-content: center;
+    gap: 0; /* Nav'ın kendi gap'i yeterli, burada ekstra eklemeyelim */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .mobile-menu.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-menu__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    text-align: center;
+  }
+
+  .mobile-menu__nav .nav-link {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  .mobile-menu__lang {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .mobile-menu__lang .lang-btn {
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* Responsive (Mobil) Düzenlemeler */
+  @media (max-width: 768px) {
+    .desktop-only { display: none !important; }
+    .mobile-only { display: flex !important; }
+    
+    .header {
+      display: flex;
+      justify-content: flex-end;
+      padding: 1.5rem 1.5rem;
+    }
+    .header__left { display: none; }
   }
 </style>
 
@@ -122,21 +252,52 @@
 
   function initHeaderNavigation() {
     const navLinks = document.querySelectorAll('.nav-link');
+    const hamburger = document.querySelector('.js-hamburger');
+    const mobileMenu = document.querySelector('.js-mobile-menu');
     
+    // Toggle Menu
+    if(hamburger && mobileMenu) {
+      // Temizle (Bazen Astro page-load üst üste bindirebilir)
+      hamburger.replaceWith(hamburger.cloneNode(true));
+      const newHamburger = document.querySelector('.js-hamburger');
+      
+      newHamburger?.addEventListener('click', () => {
+        const isOpening = !newHamburger.classList.contains('is-active');
+        newHamburger.classList.toggle('is-active');
+        mobileMenu.classList.toggle('is-active');
+        
+        if (isOpening) {
+          // Menü açılırken linklere stagger animasyon
+          const mobileLinks = mobileMenu.querySelectorAll('.js-mobile-link');
+          gsap.fromTo(mobileLinks, 
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.5, stagger: 0.08, ease: 'power3.out', delay: 0.1 }
+          );
+        }
+      });
+    }
+
+    // Navigasyon tıklamaları
     navLinks.forEach(link => {
+      // Yine event duplication'ı önlemek için clone mantığı veya addEventListener (Astro'da event delegate daha iyidir)
       link.addEventListener('click', (e) => {
         const targetId = link.getAttribute('href');
         if (targetId && targetId.startsWith('#')) {
           e.preventDefault();
           
-          // Header tıklandığında Projects vb. sectionlara haber vermek için global event
+          // Menüyü kapat (Mobilde isek)
+          const currentHamburger = document.querySelector('.js-hamburger');
+          if(currentHamburger?.classList.contains('is-active')) {
+            currentHamburger.classList.remove('is-active');
+            mobileMenu?.classList.remove('is-active');
+          }
+
           window.dispatchEvent(new CustomEvent('nav-scroll-start'));
-          
           document.body.classList.add('is-nav-scrolling');
 
           gsap.to(window, {
             scrollTo: { y: targetId, autoKill: false },
-            duration: 1.4, /* Yumuşak bir süre */
+            duration: 1.4,
             ease: "power3.inOut",
             onComplete: () => {
               window.dispatchEvent(new CustomEvent('nav-scroll-end'));

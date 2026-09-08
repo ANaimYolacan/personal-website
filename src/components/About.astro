@@ -10,11 +10,15 @@
   <!-- Bento Konteyner -->
   <div class="bento-container js-bento-container">
     
-    <!-- Kutu 1: Ana Intro (2 Sütun Kaplar) -->
+    <!-- Kutu 1: Giriş / Bio (2 Sütun Kaplar) -->
     <div class="bento-box box-intro js-bento-box">
-      <h2 class="bento__title">About Me</h2>
+      <h2 class="bento__title">
+        <span class="en-text">About Me</span>
+        <span class="tr-text">Hakkımda</span>
+      </h2>
       <p class="bento__text">
-        I'm Naim Yolacan — an AI & Machine Learning enthusiast passionate about turning raw data into meaningful, human-centered experiences. I believe technology should serve people, not the other way around.
+        <span class="en-text">I'm Abdullah Naim Yolaçan, an AI & Machine Learning major passionate about turning data into human-centered experiences. Besides technology, I am a huge fan of all sorts of art.</span>
+        <span class="tr-text">Ben Abdullah Naim Yolaçan, verileri insan odaklı deneyimlere dönüştürmeye hevesli bir Yapay Zeka ve Makine Öğrenmesi bölümü öğrencisiyim. Teknolojinin yanı sıra, sanatın her türüne büyük bir ilgim var.</span>
       </p>
     </div>
 
@@ -23,40 +27,82 @@
       <img src="/images/hero.png" alt="Naim Yolacan" class="bento__img" />
     </div>
 
-    <!-- Kutu 3: Motivasyon (1 Sütun Kaplar) -->
-    <div class="bento-box box-focus js-bento-box">
-      <h3>Dig Deeper.</h3>
-      <p class="bento__text">Curiosity drives everything I build and explore.</p>
-    </div>
+    <!-- Kutu 3: Resume (1 Sütun Kaplar) -->
+    <a href="/resume.pdf" target="_blank" class="bento-box box-focus box-resume js-bento-box">
+      <div class="resume-header">
+        <h3 class="resume-title">
+          <span class="resume-title__top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-crimson-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="resume-icon">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span class="en-text">Download</span>
+            <span class="tr-text">Özgeçmişimi</span>
+          </span>
+          <span class="resume-title__bottom">
+            <span class="en-text">My Resume</span>
+            <span class="tr-text">İndir</span>
+          </span>
+        </h3>
+      </div>
+      <p class="bento__text">
+        <span class="en-text">Get a complete overview of my education, technical skills, and professional journey.</span>
+        <span class="tr-text">Eğitimim, teknik yeteneklerim ve profesyonel yolculuğuma dair tam bir genel bakış elde edin.</span>
+      </p>
+    </a>
 
     <!-- Kutu 4: Ne Yapıyorum (2 Sütun Kaplar) -->
     <div class="bento-box box-whatido js-bento-box">
-      <h3>What I Do</h3>
+      <h3>
+        <span class="en-text">What I Do</span>
+        <span class="tr-text">Neler Yapıyorum</span>
+      </h3>
       <p class="bento__text">
-        I design and develop intelligent systems that bridge the gap between complex algorithms and elegant interfaces. From deep learning models to full-stack web applications, I enjoy working across the entire stack.
+        <span class="en-text">I design and develop intelligent systems. I am currently working on a self-guiding missile system. I enjoy playing my guitar and glass-work in open flame in my free time.</span>
+        <span class="tr-text">Akıllı sistemler tasarlıyor ve geliştiriyorum. Şu anda kendi kendini yönlendiren bir füze sistemi üzerinde çalışıyorum. Boş zamanlarımda gitar çalmaktan ve açık ateşte cam işçiliği yapmaktan keyif alıyorum.</span>
       </p>
     </div>
 
     <!-- Kutu 5: İletişim (1 Sütun Kaplar) -->
-    <div class="bento-box box-connect js-bento-box">
-      <span class="big-text">Connect.</span>
-      <p class="bento__text">Always open to new collaborations.</p>
-    </div>
+    <a href="https://www.linkedin.com/in/abdullah-naim-yolacan" target="_blank" rel="noopener noreferrer" class="bento-box box-connect js-bento-box">
+      <div class="connect-header">
+        <span class="big-text">
+          <span class="en-text">Connect.</span>
+          <span class="tr-text">Bağlan.</span>
+        </span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-crimson-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="connect-icon">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+          <rect x="2" y="9" width="4" height="12"></rect>
+          <circle cx="4" cy="4" r="2"></circle>
+        </svg>
+      </div>
+      <p class="bento__text">
+        <span class="en-text">Always open to new collaborations.</span>
+        <span class="tr-text">Yeni işbirliklerine her zaman açığım.</span>
+      </p>
+    </a>
 
     <!-- Kutu 6: Yetenekler / Toolkit (Tüm satırı kaplar) -->
     <div class="bento-box box-toolkit js-bento-box">
-      <h3>My Toolkit</h3>
+      <h3>
+        <span class="en-text">My Toolkit</span>
+        <span class="tr-text">Yeteneklerim</span>
+      </h3>
       <div class="toolkit-tags">
         <span>Python</span>
-        <span>TensorFlow</span>
-        <span>PyTorch</span>
-        <span>Scikit-learn</span>
-        <span>JavaScript</span>
-        <span>TypeScript</span>
-        <span>React</span>
-        <span>Astro</span>
-        <span>Node.js</span>
+        <span>MATLAB</span>
         <span>SQL</span>
+        <span>PyTorch</span>
+        <span>TensorFlow</span>
+        <span>scikit-learn</span>
+        <span>Pandas</span>
+        <span>NumPy</span>
+        <span>Seaborn</span>
+        <span>Keras</span>
+        <span>OpenCV</span>
+        <span>Git & GitHub</span>
+        <span>Docker (Basic)</span>
       </div>
     </div>
 
@@ -178,11 +224,84 @@
     margin: 0 0 0.75rem 0;
   }
 
+  /* Resume Card Özel CSS */
+  .box-resume {
+    text-decoration: none;
+    cursor: pointer;
+    background: rgba(220, 20, 60, 0.05); /* Crimson tonu belirginleştirildi */
+    border-color: rgba(220, 20, 60, 0.15);
+  }
+
+  .box-resume:hover {
+    background: rgba(220, 20, 60, 0.1);
+    border-color: rgba(220, 20, 60, 0.3);
+  }
+
+  .resume-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .resume-title {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .resume-title__top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .resume-title__bottom {
+    display: block;
+    /* İkonun sağında (Download kelimesinin hizasında) başlamasını isterseniz margin-left: 22px + gap kullanabilirdik,
+       fakat ikonla aynı sol hizada başlamasını istediğiniz için margin vermiyoruz. */
+  }
+
+  .resume-icon {
+    /* İkon zaten svg içinde crimson yapıldı */
+    opacity: 0.9;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .box-resume:hover .resume-icon {
+    opacity: 1;
+    transform: translateY(3px); /* Biraz daha belirgin aşağı hareket */
+  }
+
+  .box-connect {
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .connect-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .connect-icon {
+    opacity: 0.8;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .box-connect:hover .connect-icon {
+    opacity: 1;
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .box-connect:hover {
+    border-color: rgba(220, 20, 60, 0.3);
+  }
+
   .big-text {
     font-size: 2.2rem;
     font-weight: 700;
     letter-spacing: -0.02em;
-    margin-bottom: 0.5rem;
+    margin: 0;
   }
 
   .bento__text {
@@ -249,14 +368,34 @@
   @media (max-width: 768px) {
     .bento-container {
       grid-template-columns: 1fr;
+      padding: 0 5vw;
+      gap: 1rem;
+    }
+    .bento-box {
+      padding: 1.5rem;
+      border-radius: 24px;
+    }
+    .bento__title {
+      font-size: 2.8rem;
+    }
+    .bento__text {
+      font-size: 0.95rem;
     }
     .box-intro, .box-portrait, .box-focus, .box-whatido, .box-connect, .box-toolkit {
       grid-column: span 1;
       grid-row: auto;
     }
     .box-portrait {
-      min-height: 400px; /* Mobilde portreye sabit yükseklik verelim */
+      min-height: 300px;
     }
+
+    /* Mobil Kart Sıralaması: About Me → Portre → What I Do → Toolkit → Dig Deeper → Connect */
+    .box-intro    { order: 1; } /* About Me */
+    .box-portrait { order: 2; } /* Portre */
+    .box-whatido  { order: 3; } /* What I Do */
+    .box-toolkit  { order: 4; } /* Toolkit */
+    .box-focus    { order: 5; } /* Dig Deeper */
+    .box-connect  { order: 6; } /* Connect */
   }
 </style>
 
