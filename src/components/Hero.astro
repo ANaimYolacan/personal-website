@@ -228,24 +228,32 @@
 
   /* Responsive Düzenlemeler */
   @media (max-width: 768px) {
+    .hero-spacer {
+      height: 100dvh;
+    }
+
+    .hero {
+      height: 100dvh;
+      min-height: unset;
+    }
+
     .hero__title-line {
-      /* Mobilde biraz büyütüldü (eski: 2.2rem) */
-      font-size: clamp(2.6rem, 13vw, 4.5rem);
+      font-size: clamp(2.4rem, 11.5vw, 4rem);
     }
 
     .hero__portrait-wrapper {
-      /* Portreyi sadece sağa kaydır, dikeyde olduğu gibi bırak */
       left: 55%;
+      bottom: 5vh; /* Portreyi aşağıdan yukarıya kaldırıyoruz */
+      height: 95dvh;
     }
     
     .hero__portrait {
-      /* Portreyi küçült */
-      height: 75vh; 
+      height: 70dvh; /* Mobilde orantılı ve daha ferah yükseklik */
     }
 
     .hero__typography {
-      bottom: 8vh;
-      left: 4vw;
+      bottom: 13vh; /* İsmi ve alt başlığı daha yukarıya, ekranın odak noktasına taşıyoruz */
+      left: 5vw;
     }
 
     .hero__subtitle {
@@ -254,7 +262,7 @@
 
     .hero__scroll-indicator {
       right: 4vw;
-      bottom: 3vh;
+      bottom: 3.5vh;
     }
   }
 </style>
