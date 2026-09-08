@@ -189,7 +189,7 @@ const cardsData = [
                   <span class="a__badge">{card.id}</span>
                   
                   {card.image && (
-                    <img src={card.image} alt={card.title} class="a__img" />
+                    <img src={card.image} alt={card.title} class="a__img" loading="lazy" decoding="async" />
                   )}
 
                   <!-- Her zaman ortada duran başlık (Hover/Tap ile gizlenir) -->
@@ -380,7 +380,6 @@ const cardsData = [
     pointer-events: none;
     user-select: none;
     white-space: nowrap;
-    will-change: transform, opacity;
 
     opacity: calc(var(--is-center, 0) + (1 - var(--is-center, 0)) * var(--state));
 
@@ -408,7 +407,6 @@ const cardsData = [
       scale(1.05, 1.02)
       translate3d(calc(var(--head) * 0.2rem * var(--state)), 0, 0);
     transform-origin: calc(50% - var(--head) * 50%) -50%;
-    will-change: transform, opacity;
     content: attr(data-letter);
   }
 
